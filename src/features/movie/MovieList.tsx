@@ -9,7 +9,7 @@ function MovieList() {
     const { listFilms, keyword, page, movieType, error, lastID, detailFilm } = useSelector((f: any) => f.films as MovieState);
     const dispatch = useDispatch<any>();
     useEffect(() => {
-        console.log(`parameter:${[movieType, keyword, page, lastID]}`);
+
         dispatch(getFilmsAsync({ movieType, keyword, page, id: lastID }));
     }, [keyword, page, movieType, lastID])
     return (

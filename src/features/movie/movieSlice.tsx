@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { MovieJSONPayload, MoviePayload } from "../../types/type";
-import { API_KEY, BASE_MOVE_SEARCH_API_URL, BASE_MOVIE_API_URL, BASE_TV_API_URL, BASE_TV_SEARCH_API_URL, BASE_URL_MOVIE_SEARCH_WITH_ID, BASE_URL_TV_SEARCH_WITH_ID } from '../../constants/globalVariable'
+import { API_KEY, BASE_MOVE_SEARCH_API_URL, BASE_MOVIE_API_URL, BASE_TV_API_URL, BASE_TV_SEARCH_API_URL, BASE_URL_GET_TRENDING, BASE_URL_MOVIE_SEARCH_WITH_ID, BASE_URL_TV_SEARCH_WITH_ID } from '../../constants/globalVariable'
 
 export interface MovieState {
     listFilms?: MovieJSONPayload[],
@@ -10,7 +10,7 @@ export interface MovieState {
     page: number,
     loading: boolean,
     rawPayload?: MoviePayload,
-    movieType: "tv" | "movie",
+    movieType: "tv" | "movie" | "trending",
     lastID: number,
     detailFilm?: MovieJSONPayload
 }
@@ -38,6 +38,9 @@ const getFilms = async (movieType: string, keyword: string, page: number, id: nu
             }
 
 
+            break;
+        case "trending":
+            url += BASE_URL_GET_TRENDING + "?";
             break;
         default:
             if (id > 0) {

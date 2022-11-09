@@ -59,6 +59,7 @@ function MovieMain() {
 
     return (
         <div >
+            { }
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
                 <MovieSearch />
             </FormProvider>

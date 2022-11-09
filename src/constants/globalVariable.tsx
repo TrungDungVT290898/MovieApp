@@ -6,4 +6,5 @@ export const BASE_MOVE_SEARCH_API_URL = "https://api.themoviedb.org/3/search/mov
 export const BASE_TV_SEARCH_API_URL = "https://api.themoviedb.org/3/search/tv?"
 export const BASE_URL_MOVIE_SEARCH_WITH_ID = "https://api.themoviedb.org/3/movie/"
 export const BASE_URL_TV_SEARCH_WITH_ID = "https://api.themoviedb.org/3/tv/"
+export const BASE_URL_GET_TRENDING = "https://api.themoviedb.org/3/trending/all/week"
 
