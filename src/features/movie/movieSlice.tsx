@@ -11,7 +11,8 @@ export interface MovieState {
     loading: boolean,
     rawPayload?: MoviePayload,
     movieType: "tv" | "movie",
-    lastID: number
+    lastID: number,
+    detailFilm?: MovieJSONPayload
 }
 interface IParameterGetFilms {
     movieType: string,
@@ -31,8 +32,9 @@ const getFilms = async (movieType: string, keyword: string, page: number, id: nu
                 if (!keyword || keyword === "")
                     url += BASE_TV_API_URL;
                 else {
-                    url += BASE_TV_SEARCH_API_URL + `&query=${keyword}`;
+                    url += BASE_TV_SEARCH_API_URL + `&query=${keyword}&`;
                 }
+                url += `&page=${page}&`
             }
 
 
@@ -45,18 +47,19 @@ const getFilms = async (movieType: string, keyword: string, page: number, id: nu
                 if (!keyword || keyword === "")
                     url += BASE_MOVIE_API_URL;
                 else {
-                    url += BASE_MOVE_SEARCH_API_URL + `&query=${keyword}`;
+                    url += BASE_MOVE_SEARCH_API_URL + `&query=${keyword}&`;
                 }
+                url += `&page=${page}&`
             }
 
             break;
     }
-    url += `&${API_KEY}`;
+    url += `${API_KEY}`;
     console.log(`url: ${url}`)
     try {
         const req = await fetch(url);
         const data = await req.json();
-
+        console.log(data);
         return data;
 
 
@@ -76,6 +79,8 @@ export const filmsSlice = createSlice({
     reducers: {
         setFilter: (state, action) => {
             state.keyword = action.payload;
+            state.detailFilm = undefined;
+            state.lastID = 0;
             state.page = 1;
         },
         changePage: (state, action) => {
@@ -91,6 +96,8 @@ export const filmsSlice = createSlice({
         },
         changeMovieType: (state, action) => {
             state.movieType = action.payload;
+            state.detailFilm = undefined;
+            state.lastID = 0;
             state.page = 1;
         },
         changeID: (state, action) => {
@@ -107,7 +114,13 @@ export const filmsSlice = createSlice({
             .addCase(getFilmsAsync.fulfilled, (state, action) => {
                 state.status = "idle";
                 state.rawPayload = action.payload;
-                state.listFilms = state.rawPayload?.results;
+
+                if (state.lastID <= 0)
+                    state.listFilms = (state.rawPayload as MoviePayload).results;
+                else
+                    state.detailFilm = action.payload;
+
+
                 state.loading = false;
             })
             .addCase(getFilmsAsync.rejected, (state, action) => {

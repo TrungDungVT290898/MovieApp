@@ -31,3 +31,7 @@ export type FormProviderProps = {
     onSubmit: any,
     methods: any
 }
+export interface PortalProps {
+    children: JSX.Element,
+    parent: string
+}

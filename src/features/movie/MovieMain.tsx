@@ -50,7 +50,6 @@ function MovieMain() {
     useEffect(() => {
         const paths = location.pathname.split("/");
         const id = parseInt(paths[paths.length - 1]);
-        console.log(id)
         if (id && id !== lastID) {
             dispatch(changeID(id));
         }
@@ -59,14 +58,22 @@ function MovieMain() {
     })
 
     return (
-        <div>
+        <div >
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
                 <MovieSearch />
             </FormProvider>
 
             <MovieList />
+            {
+
+            }
             <Pagination currentPage={page} pageNum={!rawPayload || !rawPayload.results ? 0 : Math.round(rawPayload.total_pages / 20)} handleChangePage={handleChangePage} />
+
         </div >
+
+
+
+
     )
 }
 
